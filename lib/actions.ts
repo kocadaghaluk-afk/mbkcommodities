@@ -67,15 +67,18 @@ export async function submitContactForm(
     }
 
     const emailProvider = getEmailProvider();
-    const { isDemoMode } = await emailProvider.sendEnquiry({
-      fullName: parsed.data.fullName,
-      company: parsed.data.company,
-      position: parsed.data.position,
-      businessEmail: parsed.data.businessEmail,
-      country: parsed.data.country,
-      subject: parsed.data.subject,
-      message: parsed.data.message,
-    });
+    const { isDemoMode } = await emailProvider.sendEnquiry(
+      {
+        fullName: parsed.data.fullName,
+        company: parsed.data.company,
+        position: parsed.data.position,
+        businessEmail: parsed.data.businessEmail,
+        country: parsed.data.country,
+        subject: parsed.data.subject,
+        message: parsed.data.message,
+      },
+      { submittedAt: new Date(), ipAddress: identifier }
+    );
 
     return {
       status: "success",

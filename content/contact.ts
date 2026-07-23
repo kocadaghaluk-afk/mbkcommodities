@@ -67,7 +67,7 @@ export const contactPageCopy = {
     consentLinkLabel: "Privacy Policy",
     submitLabel: "Send Enquiry",
     successMessage:
-      "Thank you. Your enquiry has been received and will be reviewed by the appropriate MBK team.",
+      "Thank you for contacting MBK Holding Commodities. Your enquiry has been received successfully. A member of our team will respond as soon as possible.",
     errorMessage:
       "We could not send your enquiry. Please try again or contact MBK through the corporate email address.",
   },
