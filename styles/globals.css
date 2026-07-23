@@ -1,0 +1,213 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens — single source of truth for colour, type, spacing and
+ * radius. Values below are taken directly from the MBK Digital Brand
+ * System (Brand Bible v1.1) and must not be altered without a
+ * corresponding update to that document first (Brand Bible, Governance).
+ *
+ * Color values and their source in the Brand Bible:
+ *   Section 2 — Primary (Maroon), Secondary (Teal), Accent (Signal Cyan),
+ *   Neutral (Ink/Paper/White/Stone), Text Hierarchy, Semantic.
+ */
+@theme {
+  /* Neutral base — carries the large majority of every view (Brand Bible 2.1). */
+  --color-ink: #10161b;           /* Institutional Ink */
+  --color-paper: #f7f5f1;         /* Paper */
+  --color-white: #ffffff;         /* Surface White */
+  --color-stone: #e4e0d8;         /* Stone */
+
+  /* Text hierarchy */
+  --color-text-secondary: #3c444b;
+  --color-muted: #6b7178;         /* Text Muted */
+
+  /* Primary — MBK Maroon: rare, deliberate accents only (logo, active-state
+     underline, key section markers) — never a large fill. */
+  --color-maroon: #6d2b3d;
+  --color-maroon-deep: #4e1f2c;
+  --color-maroon-tint: #f4e9ec;
+
+  /* Secondary — MBK Teal: calmer, structural, suited to larger surface use
+     (dark section backgrounds as a brand-tinted alternative to Ink). */
+  --color-teal: #00546c;
+  --color-teal-deep: #003a4a;
+  --color-teal-tint: #e7f0f2;
+
+  /* Accent — Signal Cyan: one small accessory detail per view. Not for text
+     on light backgrounds (fails WCAG AA — Brand Bible 2). Muted variant is
+     safe for UI/large text on light backgrounds and for focus rings. */
+  --color-cyan: #00a7e1;
+  --color-cyan-muted: #0e7fa3;
+
+  /* Semantic */
+  --color-success: #2f6b4f;
+  --color-warning: #a5730f;
+  --color-error: #a33b2e;
+
+  /* Borders / dividers — hairline only */
+  --color-line: rgba(16, 22, 27, 0.12);
+  --color-line-dark: rgba(255, 255, 255, 0.14);
+
+  /* Composed from the raw next/font variables set on <body> in app/layout.tsx,
+     with static fallbacks so the tokens still resolve before fonts load
+     or if next/font is ever bypassed. */
+  --font-serif: var(--font-newsreader, "Newsreader"), ui-serif, Georgia, serif;
+  --font-sans: var(--font-inter, "Inter"), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+
+  /* Section rhythm (Brand Bible 7.3): 112–144 desktop / 80–96 tablet / 56–72 mobile. */
+  --spacing-section-mobile: 64px;
+  --spacing-section-tablet: 96px;
+  --spacing-section-desktop: 128px;
+
+  /* Type scale — Brand Bible Section 3. Display/H1 are controlled by word
+     count and manual line breaks, not a character limit (Brand Bible 3.1). */
+  --text-display: clamp(3.25rem, 7vw, 7rem);   /* Display — weight 500, lh 1.05, tracking -0.01em */
+  --text-h1: clamp(2.5rem, 4vw, 4.5rem);       /* H1 — weight 500, lh 1.1, tracking -0.01em */
+  --text-h2: clamp(2rem, 3vw, 3.5rem);         /* H2 — weight 500, lh 1.15 */
+  --text-h3: clamp(1.35rem, 2vw, 2rem);        /* H3 — weight 500, lh 1.2 */
+  --text-h4: 1.25rem;                           /* H4 — Inter 600, lh 1.3 */
+  --text-h5: 1.125rem;                          /* H5 — Inter 600, lh 1.35 */
+  --text-h6: 0.8125rem;                         /* H6 / Eyebrow — Inter 600, lh 1.4, tracking 0.12em */
+  --text-body-l: 1.25rem;                       /* Body Large — Inter 400, lh 1.6 */
+  --text-body: 1rem;                            /* Body — Inter 400, lh 1.7 */
+  --text-small: 0.875rem;                       /* Small — Inter 400, lh 1.5 */
+  --text-caption: 0.75rem;                      /* Caption — Inter 500, lh 1.4, tracking 0.05em */
+  --text-button: 0.9375rem;                     /* Button — Inter 500, tracking 0.01em */
+  --text-nav: 0.925rem;                         /* Navigation — Inter 500 */
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Matches the header's fixed h-[72px] (components/layout/Header.tsx).
+       Without this, anchor-based navigation (the skip link today, any
+       future in-page anchor) scrolls its target's top edge to the very
+       top of the viewport — exactly where the sticky header re-pins
+       itself, hiding the first 72px of the target underneath it. */
+    scroll-padding-top: 72px;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, .font-editorial {
+    font-family: var(--font-serif);
+    font-weight: 500;
+  }
+
+  h4, h5, .font-editorial-sans {
+    font-family: var(--font-sans);
+    font-weight: 600;
+  }
+
+  p {
+    max-width: 70ch;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  ::selection {
+    background-color: var(--color-maroon);
+    color: var(--color-white);
+  }
+
+  /* Visible keyboard focus everywhere — never suppressed. Signal Cyan
+     Muted is used (not the raw Signal Cyan) because it is the variant
+     verified accessible as a UI-component color on both light and dark
+     surfaces (Brand Bible, Section 2 — Accent). */
+  :focus-visible {
+    outline: 2px solid var(--color-cyan-muted);
+    outline-offset: 3px;
+  }
+
+  /* Skip link: visually hidden until focused. */
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -3rem;
+    z-index: 100;
+    background-color: var(--color-ink);
+    color: var(--color-white);
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius-md);
+    transition: top 0.2s ease-out;
+  }
+
+  .skip-link:focus {
+    top: 1rem;
+  }
+}
+
+@layer utilities {
+  /* Scroll-reveal utility, paired with a small client observer wrapper.
+     Respects prefers-reduced-motion via the media query below. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+
+  .reveal[data-revealed="true"] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .image-scale-in {
+    transform: scale(1.02);
+    transition: transform 0.6s ease-out;
+  }
+
+  .image-scale-in[data-revealed="true"] {
+    transform: scale(1);
+  }
+
+  /*
+   * Logo on dark/photographic surfaces: a soft light glow that hugs the
+   * mark's actual silhouette (via drop-shadow, which respects PNG alpha)
+   * rather than a boxed scrim. Reads as the mark catching light, not a
+   * label pasted on top. Brand Bible 4.6 permits a scrim/overlay to
+   * guarantee contrast; this is that technique applied without a
+   * visible rectangular edge.
+   */
+  .logo-on-dark {
+    filter:
+      drop-shadow(0 1px 2px rgba(16, 22, 27, 0.5))
+      drop-shadow(0 0 18px rgba(247, 245, 241, 0.55))
+      drop-shadow(0 0 4px rgba(247, 245, 241, 0.65));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal,
+  .image-scale-in {
+    opacity: 1;
+    transform: none;
+  }
+}
