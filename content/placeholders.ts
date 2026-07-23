@@ -49,7 +49,7 @@ export const placeholderRegistry: PlaceholderEntry[] = [
   {
     id: "chairman-message",
     status: "resolved",
-    description: "Chairman's Message — approved, signed, and published with final attribution (Sheikh Mansoor, Chairman, MBK Holding Commodities). Originally a homepage section (twice, in two different positions), now a standalone page at /chairmans-message, linked from primary navigation between About and Business Areas. This is the site's single public Chairman-voice source.",
+    description: "Chairman's Message — approved, signed, and published with final attribution (Sheikh Mansoor Bin Khalifa Al Thani, Chairman, MBK Holding Commodities). Originally a homepage section (twice, in two different positions), now a standalone page at /chairmans-message, linked from primary navigation between About and Business Areas. This is the site's single public Chairman-voice source.",
     location: "content/chairmans-message.ts, components/sections/ChairmanMessagePage.tsx, app/chairmans-message/page.tsx, content/site.ts (nav), content/seo.ts (metadata)",
   },
   {

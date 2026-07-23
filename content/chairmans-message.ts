@@ -16,7 +16,7 @@ export const chairmansMessage = {
     "This message offers an introduction to the principles that guide how we think and conduct business. It is not a record of what we sell, but an account of the principles that guide us, and of the perspective we intend to carry forward for many years to come.",
   ],
   signature: {
-    name: "Sheikh Mansoor",
+    name: "Sheikh Mansoor Bin Khalifa Al Thani",
     title: "Chairman",
     company: "MBK Holding Commodities",
   },
