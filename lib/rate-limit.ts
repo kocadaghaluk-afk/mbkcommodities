@@ -154,10 +154,23 @@ export function getRateLimiter(): RateLimiter {
   }
 
   if (isProduction) {
-    cachedLimiter = new UnconfiguredProductionRateLimiter();
-  } else {
-    cachedLimiter = new InMemoryDevRateLimiter({ windowMs, maxAttempts });
+    // Deliberately NOT cached (see cachedLimiter usage above/below). This
+    // was the actual root cause of a real production bug: caching this
+    // placeholder here meant that if even a single invocation on a warm
+    // serverless instance ever saw RATE_LIMIT_PROVIDER as unset — for
+    // instance, a transient cold-start timing issue in how the runtime
+    // exposes environment variables — that failure got permanently
+    // cached for the remaining lifetime of that instance. Every
+    // subsequent request on the same warm instance would then keep
+    // failing with "RATE_LIMIT_PROVIDER is not configured" even though
+    // the variable was, in fact, correctly configured — because the code
+    // never checked again. Returning the placeholder directly (without
+    // assigning it to cachedLimiter) means every call while unconfigured
+    // re-reads the environment fresh, so it self-heals on the very next
+    // request once the runtime actually exposes the variable.
+    return new UnconfiguredProductionRateLimiter();
   }
 
+  cachedLimiter = new InMemoryDevRateLimiter({ windowMs, maxAttempts });
   return cachedLimiter;
 }
