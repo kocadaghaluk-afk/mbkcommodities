@@ -120,15 +120,15 @@ export const placeholderRegistry: PlaceholderEntry[] = [
   },
   {
     id: "brand-logo-compact-mark",
-    status: "pending-approval",
-    description: "Compact mark for favicon/small-scale use. Not yet approved or produced, and must never be created by cropping the full lockup (Brand Bible v1.1, Section 4.5).",
-    location: "Not present in the repository — no file exists to reference.",
+    status: "resolved",
+    description: "Compact mark approved: the MBK monogram/symbol extracted from the approved full lockup (public/brand/logo-primary.png), excluding the 'HOLDING' wordmark beneath it. Explicitly approved for favicon, browser tab icon, app icon, Apple touch icon, and small-scale Open Graph brand usage. Not redrawn or reinterpreted — proportions and colors preserved exactly as extracted (precise pixel bounding box: columns 9-806, rows 5-261 of the source file). Known, accepted limitation: the monogram's true proportions (~3.1:1, wide/short) mean it letterboxes within a square canvas — measured at 16x16 the mark occupies only 6 of 16 pixel-rows vertically, so legibility at that smallest size is soft rather than crisp. This was flagged and explicitly accepted rather than resolved by cropping or redrawing, which would have violated the 'never crop the full lockup' rule this entry used to cite.",
+    location: "app/favicon.ico, app/icon.png, app/apple-icon.png",
   },
   {
     id: "brand-favicon",
-    status: "placeholder-asset",
-    description: "Favicon is a neutral placeholder mark (not derived from the approved logo), pending an official compact mark.",
-    location: "public/brand/favicon.svg",
+    status: "resolved",
+    description: "Favicon/icon set now uses the approved compact mark (see brand-logo-compact-mark), not a placeholder. Old placeholder-only public/brand/favicon.svg is superseded and no longer referenced by Next.js's file-based icon metadata.",
+    location: "app/favicon.ico, app/icon.png, app/apple-icon.png",
   },
   {
     id: "image-home-hero",
