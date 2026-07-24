@@ -2,15 +2,14 @@
 
 import { headers } from "next/headers";
 import { contactFormSchema, formatZodFieldErrors, type ContactFormFieldErrors } from "./validation";
-import { getRateLimiter } from "./rate-limit";
-import { getEmailProvider } from "./email-provider";
+import { sendContactEnquiry } from "./email-provider";
 import { contactPageCopy } from "@/content/contact";
 
 export interface ContactFormState {
   status: "idle" | "success" | "error";
   message?: string;
   fieldErrors?: ContactFormFieldErrors;
-  /** Set when the submission was handled by the demo/dev email handler rather than a real provider. */
+  /** Retained for UI type-compatibility; no longer set — there is no demo mode in the minimal Resend-only implementation. */
   isDemoMode?: boolean;
 }
 
@@ -56,18 +55,8 @@ export async function submitContactForm(
 
   try {
     const identifier = await getClientIdentifier();
-    const rateLimiter = getRateLimiter();
-    const rateLimitResult = await rateLimiter.check(identifier);
 
-    if (!rateLimitResult.success) {
-      return {
-        status: "error",
-        message: "Too many submissions. Please try again shortly.",
-      };
-    }
-
-    const emailProvider = getEmailProvider();
-    const { isDemoMode } = await emailProvider.sendEnquiry(
+    await sendContactEnquiry(
       {
         fullName: parsed.data.fullName,
         company: parsed.data.company,
@@ -83,7 +72,6 @@ export async function submitContactForm(
     return {
       status: "success",
       message: contactPageCopy.form.successMessage,
-      isDemoMode,
     };
   } catch (error) {
     console.error("[contact-form] submission failed:", error);
